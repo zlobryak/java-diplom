@@ -6,6 +6,8 @@ public class TextToColor implements TextColorSchema{
 
     @Override
     public char convert(int color) {
+        //Для начала наш метод принимает только значения в рамках 0 - 255
+        //TODO Добавить ошибку неверных значений?
         return symbols[Math.min(color * 9 / 256, 8)];
     }
 
