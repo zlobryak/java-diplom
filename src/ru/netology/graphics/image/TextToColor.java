@@ -1,7 +1,7 @@
 package ru.netology.graphics.image;
 
 public class TextToColor implements TextColorSchema{
-    char[] symbols = {'▇', '●', '◉', '◍', '◎', '○', '☉', '◌', '-'};
+    char[] symbols = {'#', '$', '@', '%', '*', '+', '-', '.', ' '};
 
 
     @Override
