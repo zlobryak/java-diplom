@@ -12,13 +12,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
        TextGraphicsConverter converter = new TextToGraphics(); // Создайте тут объект вашего класса конвертера
 
-//        GServer server = new GServer(converter); // Создаём объект сервера
-//        server.start(); // Запускаем
+        GServer server = new GServer(converter); // Создаём объект сервера
+        server.start(); // Запускаем
 
         // Или то же, но с выводом на экран:
-        //String url = "https://raw.githubusercontent.com/netology-code/java-diplom/main/pics/simple-test.png";
-        //String imgTxt = converter.convert(url);
-        //System.out.println(imgTxt);
+//        String url = "https://raw.githubusercontent.com/netology-code/java-diplom/main/pics/simple-test.png";
+//        String imgTxt = converter.convert(url);
+//        System.out.println(imgTxt);
     }
 }
 //Начните реализацию с класса цветовой схемы. Создайте в пакете ru.netology.graphics.image класс,

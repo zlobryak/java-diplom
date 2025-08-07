@@ -6,14 +6,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.net.URL;
-
-import static jdk.internal.org.jline.utils.Colors.h;
+import java.util.ArrayList;
 
 public class TextToGraphics implements TextGraphicsConverter {
-    int maxWight;
+    int maxWidth;
     int maxHeight;
     double maxRatio;
-    boolean checkRatio = true;
+    boolean checkRatio = false;
 
     @Override
     public String convert(String url) throws IOException, BadImageSizeException {
@@ -47,8 +46,9 @@ public class TextToGraphics implements TextGraphicsConverter {
             // Пример 2: макс. допустимые 100x30, а картинка 150x15. Новый размер
             // будет 100x10 (в 1.5 раза меньше).
 
-            if (maxHeight != 0 || maxWight != 0) {
-                double scale = Math.max(height / maxHeight, width / maxWight); //Вычислим коэффициент масштабирования
+            if (maxHeight != 0 || maxWidth != 0) {
+                double scale = Math.max(height / maxHeight, width / maxWidth); //Вычислим коэффициент масштабирования
+                if (scale < 1) scale = 1;
                 // Вычислим новые размеры изображеия
                 int newWidth = (int) (width / scale);
                 int newHeight = (int) (height / scale);
@@ -62,10 +62,11 @@ public class TextToGraphics implements TextGraphicsConverter {
                 // Теперь сделаем её чёрно-белой. Для этого поступим так:
                 // Создадим новую пустую картинку нужных размеров, заранее указав последним
                 // параметром чёрно-белую цветовую палитру:
+
                 BufferedImage bwImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_BYTE_GRAY);
                 // Попросим у этой картинки инструмент для рисования на ней:
                 Graphics2D graphics = bwImg.createGraphics();
-                // А этому инструменту скажем, чтобы он скопировал содержимое из нашей суженной картинки:
+                // А этому инструменту скажем, чтобы он скоп1ировал содержимое из нашей суженной картинки:
                 graphics.drawImage(scaledImage, 0, 0, null);
 
                 // Теперь в bwImg у нас лежит чёрно-белая картинка нужных нам размеров.
@@ -92,39 +93,38 @@ public class TextToGraphics implements TextGraphicsConverter {
                 // массив один раз, сохранить в переменную и передавать один
                 // и тот же массив в метод, ускорив тем самым программу.
 
-                // TODO Вам осталось пробежаться двойным циклом по всем столбцам (ширина)
+                // Вам осталось пробежаться двойным циклом по всем столбцам (ширина)
                 //  и строкам (высота) изображения, на каждой внутренней итерации
                 // получить степень белого пикселя (int color выше) и по ней
-                // получить соответствующий символ c. Логикой превращения цвета
-                // в символ будет заниматься другой объект, который мы рассмотрим ниже
-                for???
-
-                {
-                    for ???{
-                    int color = bwRaster.getPixel(w, h, new int[3])[0];
-                    char c = schema.convert(color);
-            ??? //запоминаем символ c, например, в двумерном массиве или как-то ещё на ваше усмотрение
-                }
-                }
+                // получить соответствующий символ c.
 
                 // Осталось собрать все символы в один большой текст.
                 // Для того, чтобы изображение не было слишком узким, рекомендую
                 // каждый пиксель превращать в два повторяющихся символа, полученных
                 // от схемы.
-
-
-                return???; // Возвращаем собранный текст.
+                TextToColor schema = new TextToColor();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int h = 0; h < newHeight; h++) {
+                    for (int w = 0; w < newWidth; w++) {
+                        int color = bwRaster.getPixel(w, h, new int[3])[0];
+                        stringBuilder.append(schema.convert(color)).append(schema.convert(color));
+                    }
+                    stringBuilder.append("\n");
+                }
+                return stringBuilder.toString(); // Возвращаем собранный текст.
             }
 
-        } catch (IOException | BadImageSizeException e) {
-            throw new RuntimeException(e);
+        } catch (BadImageSizeException e) {
+            throw e; // пробрасываем дальше
+        } catch (IOException e) {
+            throw e;
         }
-
+        return null;
     }
 
     @Override
     public void setMaxWidth(int width) {
-        this.maxWight = width;
+        this.maxWidth = width;
     }
 
 
