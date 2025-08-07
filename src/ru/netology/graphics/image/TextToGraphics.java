@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class TextToGraphics implements TextGraphicsConverter {
     int maxWidth;
@@ -49,14 +48,14 @@ public class TextToGraphics implements TextGraphicsConverter {
             if (maxHeight != 0 || maxWidth != 0) {
                 double scale = Math.max(height / maxHeight, width / maxWidth); //Вычислим коэффициент масштабирования
                 if (scale < 1) scale = 1;
-                // Вычислим новые размеры изображеия
+                // Вычислим новые размеры изображения
                 int newWidth = (int) (width / scale);
                 int newHeight = (int) (height / scale);
 
                 // Теперь нам нужно попросить картинку изменить свои размеры на новые.
                 // Последний параметр означает, что мы просим картинку плавно сузиться
                 // на новые размеры. В результате мы получаем ссылку на новую картинку, которая
-                // представляет собой суженную старую.
+                // представляет собой суженую старую.
                 Image scaledImage = img.getScaledInstance(newWidth, newHeight, BufferedImage.SCALE_SMOOTH);
 
                 // Теперь сделаем её чёрно-белой. Для этого поступим так:
@@ -66,7 +65,7 @@ public class TextToGraphics implements TextGraphicsConverter {
                 BufferedImage bwImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_BYTE_GRAY);
                 // Попросим у этой картинки инструмент для рисования на ней:
                 Graphics2D graphics = bwImg.createGraphics();
-                // А этому инструменту скажем, чтобы он скоп1ировал содержимое из нашей суженной картинки:
+                // А этому инструменту скажем, чтобы он скопировал содержимое из нашей суженой картинки:
                 graphics.drawImage(scaledImage, 0, 0, null);
 
                 // Теперь в bwImg у нас лежит чёрно-белая картинка нужных нам размеров.
@@ -115,7 +114,7 @@ public class TextToGraphics implements TextGraphicsConverter {
             }
 
         } catch (BadImageSizeException e) {
-            throw e; // пробрасываем дальше
+            throw e;
         } catch (IOException e) {
             throw e;
         }
