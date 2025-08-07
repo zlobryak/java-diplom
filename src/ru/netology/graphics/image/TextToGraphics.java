@@ -15,9 +15,7 @@ public class TextToGraphics implements TextGraphicsConverter {
 
     @Override
     public String convert(String url) throws IOException, BadImageSizeException {
-        try {
-
-            BufferedImage img = ImageIO.read(new URL(url)); //получаем картинку
+                    BufferedImage img = ImageIO.read(new URL(url)); //получаем картинку
             if (img == null) {
                 throw new IOException("Не удалось загрузить изображение по URL: " + url);
             }
@@ -112,12 +110,6 @@ public class TextToGraphics implements TextGraphicsConverter {
                 }
                 return stringBuilder.toString(); // Возвращаем собранный текст.
             }
-
-        } catch (BadImageSizeException e) {
-            throw e;
-        } catch (IOException e) {
-            throw e;
-        }
         return null;
     }
 
