@@ -25,7 +25,6 @@ public class TextToGraphics implements TextGraphicsConverter {
             }
             int width = img.getWidth();
             int height = img.getHeight();
-            double ratio = Math.max((double) width / height, (double) height / width); // максимальное из соотношений
 
             // Если конвертер попросили проверять на максимально допустимое
             // соотношение сторон изображения, то вам здесь нужно сделать эту проверку,
@@ -48,11 +47,11 @@ public class TextToGraphics implements TextGraphicsConverter {
             // Пример 2: макс. допустимые 100x30, а картинка 150x15. Новый размер
             // будет 100x10 (в 1.5 раза меньше).
 
-            if (maxHeight != 0 || maxWight !=0) {
-
-                int newWidth = ???;
-                int newHeight = ???;
-
+            if (maxHeight != 0 || maxWight != 0) {
+                double scale = Math.max(height / maxHeight, width / maxWight); //Вычислим коэффициент масштабирования
+                // Вычислим новые размеры изображеия
+                int newWidth = (int) (width / scale);
+                int newHeight = (int) (height / scale);
 
                 // Теперь нам нужно попросить картинку изменить свои размеры на новые.
                 // Последний параметр означает, что мы просим картинку плавно сузиться
@@ -93,8 +92,8 @@ public class TextToGraphics implements TextGraphicsConverter {
                 // массив один раз, сохранить в переменную и передавать один
                 // и тот же массив в метод, ускорив тем самым программу.
 
-                // Вам осталось пробежаться двойным циклом по всем столбцам (ширина)
-                // и строкам (высота) изображения, на каждой внутренней итерации
+                // TODO Вам осталось пробежаться двойным циклом по всем столбцам (ширина)
+                //  и строкам (высота) изображения, на каждой внутренней итерации
                 // получить степень белого пикселя (int color выше) и по ней
                 // получить соответствующий символ c. Логикой превращения цвета
                 // в символ будет заниматься другой объект, который мы рассмотрим ниже
@@ -122,8 +121,6 @@ public class TextToGraphics implements TextGraphicsConverter {
         }
 
     }
-//TODO Сначала реализуйте просто метод convert, не обращая внимания на дополнительные требования:
-// проверка картинки на макс. размеры и т. д.
 
     @Override
     public void setMaxWidth(int width) {
