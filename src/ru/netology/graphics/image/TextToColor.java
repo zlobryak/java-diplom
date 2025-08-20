@@ -1,13 +1,13 @@
 package ru.netology.graphics.image;
 
 public class TextToColor implements TextColorSchema{
-    char[] symbols = {'#', '$', '@', '%', '*', '+', '-', '.', ' '};
+    char[] symbols = {'#', '$', '@', '%', '*', '+', '-', '.'};
 
 
     @Override
     public char convert(int color) {
         //Для начала наш метод принимает только значения в рамках 0 - 255
-        return symbols[Math.min(color * 9 / 256, 8)];
+        return symbols[Math.min(color * 8 / 256, 8)];
     }
 
 
