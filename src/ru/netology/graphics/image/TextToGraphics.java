@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.net.URL;
 
 public class TextToGraphics implements TextGraphicsConverter {
-    int maxWidth;
-    int maxHeight;
-    double maxRatio;
-    boolean checkRatio = false;
+    private int maxWidth;
+    private int maxHeight;
+    private double maxRatio;
+    private boolean checkRatio = true;
+    private TextColorSchema schema = new TextToColor();
 
     @Override
     public String convert(String url) throws IOException, BadImageSizeException {
@@ -99,7 +100,7 @@ public class TextToGraphics implements TextGraphicsConverter {
                 // Для того, чтобы изображение не было слишком узким, рекомендую
                 // каждый пиксель превращать в два повторяющихся символа, полученных
                 // от схемы.
-                TextToColor schema = new TextToColor();
+
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int h = 0; h < newHeight; h++) {
                     for (int w = 0; w < newWidth; w++) {
@@ -112,6 +113,7 @@ public class TextToGraphics implements TextGraphicsConverter {
             }
         return null;
     }
+// TODO Нужно ли очищать временные файлы?
 
     @Override
     public void setMaxWidth(int width) {
@@ -131,8 +133,13 @@ public class TextToGraphics implements TextGraphicsConverter {
 
     }
 
+    public void setCheckRatio(boolean checkRatio) {
+        this.checkRatio = checkRatio;
+    }
+
     @Override
     public void setTextColorSchema(TextColorSchema schema) {
+        this.schema = schema;
 
     }
 }
